@@ -10,5 +10,8 @@ Spotify has a yearly recap where they use the data from their users and report t
 <ul>
   <li>Spotify API</h1>
   <li>React</li>
+  <li>HTML</li>
+  <li>CSS</li>
+  <li>JavaScript</li>
 </ul>
 
