@@ -15,3 +15,10 @@ Spotify has a yearly recap where they use the data from their users and report t
   <li>JavaScript</li>
 </ul>
 
+<h2>Created By:</h2>
+<ul>
+  <li>Fernando Crespo</h1>
+  <li>Greyson Beckert</li>
+  <li>James Schulz</li>
+  <li>Bradley Arline</li>
+</ul>
