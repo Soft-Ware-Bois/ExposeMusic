@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
+import NavigationBar from './navbar';
+import Logo from './logo';
 
-class Habits extends React.Component {
-    render() { 
+export default function Habits() {
         return (
-            <div>  
+            <div>
+                <Logo />
+                <NavigationBar />
                 Habits webpage
             </div>
         )
-    }
 }
- 
-export default Habits;

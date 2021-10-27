@@ -1,8 +1,9 @@
 import React from 'react';
 import Dashboard from './dashboard';
-import Explore from './explore';
-import Habits from './habits';
-import Share from './share';
+import explore from './explore';
+import habits from './habits';
+import share from './share';
+import { Link } from 'react-router-dom';
 
 
 
@@ -17,10 +18,10 @@ class NavigationBar extends React.Component {
                 <a class="navbar-brand" href="/explore">
                     Explore
                 </a>
-                <a class="navbar-brand" href="http://localhost:3000/habits">
-                    Listening Habits
+                <a class="navbar-brand" href="/habits">
+                    Habits
                 </a>
-                <a class="navbar-brand" href="http://localhost:3000/share">
+                <a class="navbar-brand" href="/share">
                     Share
                 </a>
             </nav>

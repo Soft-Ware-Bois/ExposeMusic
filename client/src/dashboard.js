@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import useAuth from './useAuth';
+import useAuth from './useAuth.js';
 import { Container, Form } from 'react-bootstrap';
 import SpotifyWebApi from 'spotify-web-api-node';
-import NavigationBar from './navbar';
-import Logo from './logo';
-import TrackSearchResult from './TrackSearchResult';
-import Player from './Player';
+import NavigationBar from './navbar.js';
+import Logo from './logo.js';
+import TrackSearchResult from './TrackSearchResult.js';
+import Player from './Player.js';
 
 const spotifyApi = new SpotifyWebApi({
     clientId: 'dd37f5158f4d4f5eb0c40f0d05c95121'
@@ -50,13 +50,13 @@ export default function Dashboard({ code }) {
             })
         )
     })
-    return () => cancel = true
+        return () => cancel = true
     }, [search, accessToken])
     
     return (
         <Container className="d-flex flex-column py-2" style={{height: "100vh"}}>
-            <Logo/>
-            <NavigationBar/>
+            <Logo />
+            <NavigationBar />
             <Form.Control 
                 type="search" 
                 placeholder="Search Songs/Artists" 
