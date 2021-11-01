@@ -13,6 +13,7 @@ Spotify has a yearly recap where they use the data from their users and report t
   <li>HTML</li>
   <li>CSS</li>
   <li>JavaScript</li>
+  <li>NodeJs</li>
 </ul>
 
 <h2>Created By:</h2>
