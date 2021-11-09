@@ -1,27 +1,19 @@
 import React from 'react';
-import Dashboard from './dashboard';
-import explore from './explore';
-import habits from './habits';
-import share from './share';
-import { Link } from 'react-router-dom';
-
-
-
 
 class NavigationBar extends React.Component {
     render() { 
         return (
-            <nav class="navbar navbar-light-bg-light">
-                <a class="navbar-brand" href="/">
+            <nav className="navbar navbar-light-bg-light">
+                <a className="navbar-brand" href="/home" style={{color: "white"}}>
                     Home
                 </a>
-                <a class="navbar-brand" href="/explore">
+                <a className="navbar-brand" href="/explore" style={{color: "white"}}>
                     Explore
                 </a>
-                <a class="navbar-brand" href="/habits">
+                <a className="navbar-brand" href="/habits" style={{color: "white"}}>
                     Habits
                 </a>
-                <a class="navbar-brand" href="/share">
+                <a className="navbar-brand" href="/share" style={{color: "white"}}>
                     Share
                 </a>
             </nav>

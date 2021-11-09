@@ -35,6 +35,7 @@ export default function Dashboard({ code }) {
         spotifyApi.searchTracks(search).then(res => {
             if (cancel) return
             setSearchResults(res.body.tracks.items.map(track => {
+                //console.log(res)
                 const smallestAlbumImage = track.album.images.reduce(
                     (smallest, image) => {
                         if (image.height < smallest.height) return image;
@@ -54,6 +55,7 @@ export default function Dashboard({ code }) {
     }, [search, accessToken])
     
     return (
+        <div style={{backgroundColor: 'black'}}>
         <Container className="d-flex flex-column py-2" style={{height: "100vh"}}>
             <Logo />
             <NavigationBar />
@@ -72,5 +74,6 @@ export default function Dashboard({ code }) {
                 <Player/>
             </div>  
         </Container>
+        </div>
     );
 }

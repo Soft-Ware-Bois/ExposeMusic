@@ -1,10 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Dashboard from './dashboard.js';
+import Explore from './explore.js';
 import Login from './login.js';
-import Dashboard from './dashboard';
-import Habits from './habits';
-import Explore from './explore';
 import Share from './share.js';
-
+import Habits from './habits.js';
 
 // Get the code from the url
 const code = new URLSearchParams(window.location.search).get('code')
@@ -12,17 +12,17 @@ const code = new URLSearchParams(window.location.search).get('code')
 
 export default function App() {
   return (
-    // If the user successfully logs in then display the 
-    // dashboard/home pageXOffset
-    code ? <Dashboard code={code}/> || <Share code={code}/> : <Login />
-    //<Dashboard/>
-    //<Explore/>
-    // <div>
-    //   <Share />
-    //   <Habits />
-    //   <Explore />
-    //   <Dashboard/>
-    // </div>
-
+    <div>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/" component={Login}/>
+          <Route path="/home" component={Dashboard} />
+          <Route path="/explore" component={Explore} />
+          <Route path="/share" component={Share} />
+          <Route path="/habits" component={Habits} />
+        </Switch>
+      </BrowserRouter>
+      code ? <Dashboard code={code}/> : <Login />
+    </div>
   );
 }

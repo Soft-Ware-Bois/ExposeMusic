@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function useAuth(code) {
     // Store the accessToken, refreshToken, and expiresIn
+    // useState allows you to add state to your functional components
     const [accessToken, setAccessToken] = useState();
     const [refreshToken, setRefreshToken] = useState();
     const [expiresIn, setExpiresIn] = useState();
@@ -16,7 +17,7 @@ export default function useAuth(code) {
             setAccessToken(res.data.accessToken)
             setRefreshToken(res.data.refreshToken)
             setExpiresIn(61)
-            window.history.pushState({}, null, '/')
+            window.history.push({}, "home page", '/home')
         }).catch( () => {
             window.location = '/'
         })
