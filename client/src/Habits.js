@@ -12,6 +12,11 @@ const spotifyApi = new SpotifyWebApi({
 })
 
 export default function Habits ({ code }) {
+    const arr= [
+        {value: 1, name: 'Most played song'},
+        {value: 2, name: 'Most played artist'},
+        {value: 3, name: 'Most played album'},
+    ]
     const accessToken = useAuth(code)
     const [drop, setDrop] = useState('')
     const [results, setSearchResults] = useState([])
@@ -19,7 +24,6 @@ export default function Habits ({ code }) {
     useEffect(() =>{
         if (!accessToken) return 
         spotifyApi.setAccessToken(accessToken)
-        console.log(accessToken)
     }, [accessToken])
 
     // useEffect(() =>{
@@ -35,13 +39,14 @@ export default function Habits ({ code }) {
     // }, [drop, accessToken])
 
     useEffect( () => {
-        spotifyApi.getMe()
-  .then(function(data) {
-    console.log(data.body);
-  }, function(err) {
-    console.log('Something went wrong!', err);
-  });
-    })
+        if (!accessToken) return;
+        spotifyApi.getMe().then(
+            (data) => {
+                console.log(data.body);
+            }, (err) => {
+                    console.log('Something went wrong!', err);
+                });
+        }, [accessToken])
         
 
     return (
@@ -53,7 +58,7 @@ export default function Habits ({ code }) {
             <Logo />
             <NavigationBar />
             <br/>
-            <Dropdown/>
+            <Dropdown data={arr}/>
             {code}
             </Container>
         </div>

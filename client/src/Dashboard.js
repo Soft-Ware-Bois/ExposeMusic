@@ -16,6 +16,7 @@ export default function Dashboard({code}) {
     const [search, setSearch] = useState("")
     const [searchResults, setSearchResults] = useState([])
     const [playingTrack, setPlayingTrack] = useState()
+    const [username, setUsername] = useState('')
 
     function chooseTrack(track){
         setPlayingTrack(track)
@@ -34,6 +35,7 @@ export default function Dashboard({code}) {
         let cancel = false
         spotifyApi.searchTracks(search).then(res => {
             if(cancel) return
+            console.log(res)
             setSearchResults(res.body.tracks.items.map(track => {
                 const smallestAlbumImage = track.album.images.reduce(
                     (smallest, image) => {
@@ -53,15 +55,26 @@ export default function Dashboard({code}) {
         return () => cancel = true
     }, [search, accessToken])
 
+    useEffect(() =>{
+        if(!accessToken) return;
+
+        spotifyApi.getMe().then(data => {
+            setUsername(data.body.display_name);
+        }, err => {
+            console.log('Something went wrong!', err);
+        });
+    }, [accessToken])
+
     return (
         <div
             style={{backgroundColor: 'black'}}
         >
             <Container 
                 className='d-flex flex-column py-2' 
-                style={{height: '100vh', backgroundColor: 'black'}}
+                style={{height: '100vh', backgroundColor: (33, 35, 36), color: 'white'}}
             >
                 <Logo />
+                Welcome {username}!
                 <br/>
                 <NavigationBar />
                 <Form.Control 
