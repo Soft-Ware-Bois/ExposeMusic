@@ -2,12 +2,12 @@ import {useState, useEffect} from "react";
 import Logo from './Logo.js';
 import NavigationBar from './NavigationBar.js'
 import useAuth from './useAuth.js'
-import { Container, Form } from 'react-bootstrap'
+import { Container, Form, Dropdown} from 'react-bootstrap'
 import SpotifyWebApi from 'spotify-web-api-node'
 import ArtistSearchResult from "./ArtistSearchResult.js";
 import Player from './Player.js';
 import GenreSearchResult from "./GenreSearchResult.js";
-import Dropdown from './Dropdown.js';
+
 
 const spotifyApi = new SpotifyWebApi({
     clientId: 'afde9650fee346a08da84885b8e4d3de',
@@ -23,7 +23,7 @@ export default function Explore({code}){
     const [playingArtist, setPlayingArtist] = useState()
     const [trackUri, setTrackUri] = useState()
     const [artistId, setArtistId] = useState('')
-    console.log(genre)
+    console.log(artistResults, artist, artistId)
 
     function chooseGenre(genres) {
         setPlayingGenre(genres)
@@ -33,9 +33,9 @@ export default function Explore({code}){
         setGenre(e)
     }
 
-    function chooseArtist(artist) {
-        setPlayingArtist(artist)
-        setArtist(artist)
+    const chooseArtist=(e)=>{
+        setPlayingArtist(e)
+        setArtist(e)
     }
 
     useEffect(() =>{
@@ -43,19 +43,12 @@ export default function Explore({code}){
         spotifyApi.setAccessToken(accessToken)
     }, [accessToken])
 
-    function getGenres(genreSearchResult){
-        for(var i=0; i<genreSearchResult.length; i++){
-            return genreSearchResult[i];
-        }
-    }
-
     // Search genre handling
     useEffect(() =>{
         if(!accessToken) return;
 
         spotifyApi.getAvailableGenreSeeds().then(
             data => {
-
                 let genreSeeds = data.body.genres;
                 setGenreResults(genreSeeds);
             }, err => {
@@ -87,7 +80,7 @@ export default function Explore({code}){
             spotifyApi.getRecommendations({
                 min_energy: 0.4,
                 min_popularity:50,
-                seed_artists: artist
+                seed_artists: artistId
             }).then(
                 res =>{
                     setTrackUri(res.body.tracks[0])
@@ -100,7 +93,7 @@ export default function Explore({code}){
             spotifyApi.getRecommendations({
                 min_energy: 0.4,
                 min_popularity: 50,
-                seed_artists: artist,
+                seed_artists: artistId,
                 seed_genres: genre,
             }).then(
                 res=>{
@@ -121,13 +114,18 @@ export default function Explore({code}){
         spotifyApi.searchArtists(artist).then(
             res =>{
                 if(cancel) return;
-                console.log(res.body.artists.items);
+                //console.log(res.body.artists.items[14]);
+                setArtistId(res.body.artists.items[0].id)
                 setArtistResults(res.body.artists.items.map(artists => {
-
-                        return {
-                            artist: artists.name,
-                            //imageUrl: artists.images[2].url
-                        }
+                    if(artists.images === []){
+                        //console.log(artists.name);
+                        return
+                    }
+                    //console.log(artists)
+                    return {
+                        artist: artists.name,
+                        imageUrl: artists.images
+                    }
                 }))
             }, err =>{
                 console.log(err);
@@ -139,10 +137,11 @@ export default function Explore({code}){
         <div style={{backgroundColor: 'black', color: 'white'}}>
             <Container
                  className='d-flex flex-column py-2' 
-                 style={{height: '100vh', backgroundColor: 'black'}}
+                 style={{height: '95vh', backgroundColor: 'black'}}
             >
             <Logo />
             <NavigationBar />
+            <hr/>
             <div>
                 <input 
                     className="form-control"
@@ -150,41 +149,44 @@ export default function Explore({code}){
                     placeholder="Search based on artist"
                     value={artist}
                     onChange={e => setArtist(e.target.value)}
-                    style={{float:'left', width: '35%', marginRight: '.5rem',}}
+                    style={{width: '35%', marginRight: '2rem', float: 'left'}}
                 />
-                <div>
-                    <select style={{width: '35%', height: '38px', color: 'black'}} onselect={handleGenre}>
-                        {genreResults.map((item, idx) => <option key={idx} value={item}>{item}</option>)}
-                    </select>
 
-                    <a 
-                        className="btn btn-success btn-lg"
-                        onClick={getRecommendations}
-                        style={{width: '24%', float: 'right'}}
+                <Dropdown onSelect={handleGenre} style={{float: 'left', width:'30%'}}>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        Search based on genres
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu
+                        style={{overflowY: 'auto', height:'500%', width:'40%'}}
                     >
-                        Get Recommendation
-                    </a>
-                </div>
-            </div>
-            {/* <div 
-                className="flew-grow-1 my-2"
-                style={{overflowY: 'auto', width: '35%', float: 'left', height: '75%'}}
-            >
-                {genreResults.map(genre => {
-                    return <GenreSearchResult
-                        genre={genre}
-                        chooseGenre={chooseGenre}
-                    />
-                })}
+                        {genreResults.map(
+                            (item, idx) => 
+                                <Dropdown.Item 
+                                    eventKey={item}  
+                                >
+                                    {item}
+                                </Dropdown.Item>
+                        )}
+                    </Dropdown.Menu>
+                </Dropdown>
 
-            </div> */}
+                <a 
+                    className="btn btn-success btn-lg"
+                    onClick={getRecommendations}
+                    style={{width: '32%', float: 'right', height: '40px', textAlign: 'center', alignItems: 'center'}}
+                >
+                    Get Recommendation
+                </a>
+            </div>
+
             <div 
                 className="flex-grow-1 my-2"
                 style={{overflowY:'auto', height: '75%', float:'left', backgroundColor:'white'}}
             >
                 {artistResults.map(artists => {
                     return <ArtistSearchResult
-                        artist={artist}
+                        artist={artists}
                         chooseArtist={chooseArtist}
                     />
                 })}

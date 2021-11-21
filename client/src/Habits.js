@@ -38,15 +38,35 @@ export default function Habits ({ code }) {
     //     )
     // }, [drop, accessToken])
 
+    // useEffect( () => {
+    //     if (!accessToken) return;
+    //     spotifyApi.getMe().then(
+    //         (data) => {
+    //             console.log(data.body);
+    //         }, (err) => {
+    //                 console.log('Something went wrong!', err);
+    //             });
+    //     }, [accessToken])
+
     useEffect( () => {
-        if (!accessToken) return;
-        spotifyApi.getMe().then(
-            (data) => {
-                console.log(data.body);
-            }, (err) => {
-                    console.log('Something went wrong!', err);
-                });
-        }, [accessToken])
+        spotifyApi.getMyTopArtists()
+  .then(function(data) {
+    let topArtists = data.body.items;
+    console.log(topArtists);
+  }, function(err) {
+    console.log('Something went wrong!', err);
+  });
+    }, [accessToken])
+
+    useEffect(() =>{
+        spotifyApi.getMyTopTracks()
+  .then(function(data) {
+    let topTracks = data.body.items;
+    console.log(topTracks);
+  }, function(err) {
+    console.log('Something went wrong!', err);
+  });
+    }, [accessToken])
         
 
     return (

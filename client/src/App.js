@@ -20,7 +20,7 @@ function App() {
         <Route path='/Share' element={Share}/>
       </Routes>
     </BrowserRouter>
-    {code ? <Explore code={code} /> : <Login />}
+    {code ? <Habits code={code} /> : <Login />}
     </div>
   )
 }

@@ -11,6 +11,7 @@ user-read-private%20
 user-library-read%20
 user-library-modify%20
 user-read-playback-state%20
+user-top-read%20
 user-modify-playback-state`
 
 export default function Login() {
